@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { getUsers, createUser, updateUser, deleteUser } from "../services/user.service.js";
 
 const router = Router();
 
@@ -9,9 +10,16 @@ const users = [
     { id: 4, nombre: "Lisa", apellido: "Simpson" }
 ]
 
-router.get("/", (request, response) => {
+router.get("/", async (request, response) => {
 
-    response.json(users)
+  try{
+    const users = await getUsers();
+
+    response.json(users);
+  }catch(error){
+    console.log(error)
+    response.json( {error} )
+  }
 })
 
 
@@ -66,7 +74,7 @@ router.delete("/:id", (req, res) => {
     if(!userExists) return res.status(404).json({ error: "User not found" })
 
     const index = users.findIndex(user => user.id === Number(id))
-    
+
     users.splice(index, 1)
 
     res.json({ message: "User deleted", user: userExists })

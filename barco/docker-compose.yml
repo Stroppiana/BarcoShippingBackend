@@ -1,12 +1,12 @@
-version: "3.3"
+version: "3.8"
 
 services:
   postgres:
     image: postgres:13
     environment:
-      - POSTGRES_DB=my_store
-      - POSTGRES_USER=santi
-      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=db_barco
+      - POSTGRES_USER=santiago
+      - POSTGRES_PASSWORD=123
     ports:
       - 5432:5432
     volumes:
@@ -15,7 +15,7 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     environment:
-      - PGADMIN_DEFAULT_EMAIL=stroppiana33@gmail.com
+      - PGADMIN_DEFAULT_EMAIL=santiago@gmail.com
       - PGADMIN_DEFAULT_PASSWORD=admin
     ports:
       - 5050:80

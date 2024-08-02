@@ -12,3 +12,38 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Rol {
+  USER
+  ADMIN
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  name     String
+  password String
+  rol      Rol     @default(USER)
+  Envio    Envio[]
+}
+
+model Barco {
+  id          Int     @id @default(autoincrement())
+  nombre      String
+  descripcion String
+  imagen      String
+  Envio       Envio[]
+}
+
+model Envio {
+  id         Int     @id @default(autoincrement())
+  cargamento String
+  peso       Int
+  barcoId    Int?
+  barco      Barco?  @relation(fields: [barcoId], references: [id])
+  origen     String
+  destino    String
+  costo      Decimal
+  userId     Int?
+  user       User?   @relation(fields: [userId], references: [id])
+}
