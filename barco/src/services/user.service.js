@@ -3,6 +3,16 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+
+async function getUserByEmail(email) {
+    const user = await prisma.user.findUnique({
+        where: {
+            email
+        }
+    })
+    return user;
+}
+
 async function getUsers() {
     const users = await prisma.user.findMany();
     return users;
@@ -47,6 +57,7 @@ async function deleteUser(id) {
 
 export {
     getUsers,
+    getUserByEmail,
     createUser,
     updateUser,
     deleteUser,

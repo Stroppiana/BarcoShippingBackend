@@ -3,18 +3,10 @@ import { getUsers, createUser, updateUser, deleteUser } from "../services/user.s
 
 const router = Router();
 
-const users = [
-    { id: 1, nombre: "Cosme", apellido: "Fulanito" },
-    { id: 2, nombre: "Lalo", apellido: "Landa" },
-    { id: 3, nombre: "Mel", apellido: "Patiño" },
-    { id: 4, nombre: "Lisa", apellido: "Simpson" }
-]
-
-router.get("/", async (request, response) => {
+router.get("/",async (request, response) => {
 
   try{
     const users = await getUsers();
-
     response.json(users);
   }catch(error){
     console.log(error)
@@ -28,24 +20,25 @@ router.get("/:id", (req,res)=>{
 
     const user = users.find(user => user.id === Number(id))
 
-    if(!user) return res.status(404).json({ error: "User NOT found"})
+    if(!user) return res.status(404).json({ error: "Usuario no encontrado"})
 
     res.json(user)
 })
 
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
 
-    const { id, nombre, apellido } = req.body;
+    const { name, email, password } = req.body;
 
-    if ( !id || !nombre || !apellido) return res.status(404).json( {error: "FALTAN DATOS"}); 
+    if ( !name || !email || !password) return res.status(404).json( {error: "FALTAN DATOS"}); 
 
-    users.push({
-        id,
-        nombre,
-        apellido
-    })
-    res.json({ message: "User created", user: {id, nombre, apellido}})
+    try{
+      const user = await createUser( { name, email, password} )
+      res.json({ message: "Usuario creado", user })
+    }catch(error){
+        console.log(error);
+        res.json({ error });
+    }
 
 })
 
@@ -58,7 +51,7 @@ router.put("/:id", (req, res) => {
 
     const userExists = users.find(user => user.id === Number(id))
 
-    if(!userExists) return res.status(404).json({ error: "User not found" })
+    if(!userExists) return res.status(404).json({ error: "Usuario no encontrado" })
 
     const index = users.findIndex(user => user.id === Number(id))
     users[index] = { id: Number(id), nombre, apellido }
@@ -71,13 +64,13 @@ router.delete("/:id", (req, res) => {
 
     const userExists = users.find(user => user.id === Number(id))
 
-    if(!userExists) return res.status(404).json({ error: "User not found" })
+    if(!userExists) return res.status(404).json({ error: "Usuario no encontrado" })
 
     const index = users.findIndex(user => user.id === Number(id))
 
     users.splice(index, 1)
 
-    res.json({ message: "User deleted", user: userExists })
+    res.json({ message: "Usuario eliminado", user: userExists })
 })
 
 
