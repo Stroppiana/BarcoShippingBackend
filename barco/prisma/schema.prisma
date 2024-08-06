@@ -27,20 +27,12 @@ model User {
   Envio    Envio[]
 }
 
-model Barco {
-  id          Int     @id @default(autoincrement())
-  nombre      String
-  descripcion String
-  imagen      String
-  Envio       Envio[]
-}
 
 model Envio {
   id         Int     @id @default(autoincrement())
   cargamento String
   peso       Int
-  barcoId    Int?
-  barco      Barco?  @relation(fields: [barcoId], references: [id])
+  barco      String
   origen     String
   destino    String
   costo      Decimal
