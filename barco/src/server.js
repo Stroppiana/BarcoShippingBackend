@@ -2,7 +2,9 @@ import express from "express";
 import cors from "cors";
 import userRouter from "./routes/user.routes.js";
 import authRouter from "./routes/auth.routes.js";
-import validateToken from "./utils/helpers.js"
+import validateToken from "./utils/helpers.js";
+import envioRouter from "./routes/envio.routes.js";
+
 import dotenv from 'dotenv';
 dotenv.config(); 
 const app = express();
@@ -17,7 +19,7 @@ app.use(cors({
 }));
 
 app.use('/api/auth', authRouter);
-
+app.use('/api/envio', /*validateToken,*/ envioRouter);
 app.use("/api/users", /*validateToken,*/ userRouter);
 
 app.listen(PORT, () => {
