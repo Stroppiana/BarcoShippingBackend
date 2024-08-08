@@ -14,23 +14,8 @@ router.get("/", async (req, res) => {
     }
 })
 
-// router.get("/user/:userId", async (req, res) => {
-//     const { userId } = req.params;
-  
-//     try {
-//       const envios = await getEnviosById(Number(userId));
-//       if (envios.length === 0) {
-//         return res.status(404).json({ error: "NO HAY ENVIOS REALIZADOS POR ESTE USUARIO" });
-//       }
-//       res.json(envios);
-//     } catch (error) {
-//       console.log(error);
-//       res.json({ error });
-//     }
-//   });
-
 router.get('/user', async (req, res) => {
-    const { userId } = req.query; // Aquí obtienes el userId desde la query string
+    const { userId } = req.query;
   
     if (!userId) {
       return res.status(400).json({ error: 'userId es requerido' });
